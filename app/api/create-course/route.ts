@@ -5,12 +5,17 @@ import { streamText } from "ai";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { topic } = await req.json();
 
   const result = streamText({
     model: google("gemini-1.5-flash"),
     system: "You are a helpful assistant.",
-    messages,
+    messages: [
+      {
+        role: "user",
+        content: `I want to create a course on ${topic}`,
+      },
+    ],
   });
 
   return result.toDataStreamResponse();
