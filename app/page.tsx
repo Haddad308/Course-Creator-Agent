@@ -149,7 +149,7 @@ export default function Page() {
             className="text-blue-600 border-blue-600 hover:bg-blue-100"
             onClick={() =>
               window.open(
-                "https://www.postman.com/your-api-docs-link",
+                "https://www.postman.com/rebusai/courese-creator-agent",
                 "_blank"
               )
             }
