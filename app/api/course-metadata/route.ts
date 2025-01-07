@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
   const result = streamObject({
     temperature: 0.8,
-    model: google("gemini-1.5-pro"),
+    model: google("gemini-1.5-pro-001"),
     system:
       "You are an expert course creator specializing in detailed educational content. Each lesson must follow a structured format, including key concepts, impacts, strategies, cooperation, individual actions, and a conclusion.",
     schema: courseMetadataSchema,
