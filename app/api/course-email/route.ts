@@ -9,6 +9,15 @@ export async function POST(req: Request) {
   // Expecting the course title in the request body
   const { courseTitle } = await req.json();
 
+  if (!courseTitle) {
+    return new Response(
+      JSON.stringify({
+        error: "courseTitle is required.",
+      }),
+      { status: 400 }
+    );
+  }
+
   const result = streamObject({
     temperature: 0.8,
     model: google("gemini-1.5-flash"),

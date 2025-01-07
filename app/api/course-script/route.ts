@@ -8,6 +8,15 @@ export const maxDuration = 30;
 export async function POST(req: Request) {
   const { lessonName } = await req.json(); // Expecting the lesson name in the request body
 
+  if (!lessonName) {
+    return new Response(
+      JSON.stringify({
+        error: "lessonName is required.",
+      }),
+      { status: 400 }
+    );
+  }
+
   const result = streamObject({
     temperature: 0.8,
     model: google("gemini-1.5-pro-001"),
