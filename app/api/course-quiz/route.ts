@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
   const result = streamObject({
     temperature: 0.8,
-    model: google("gemini-1.5-pro"),
+    model: google("gemini-1.5-pro-001"),
     system:
       "You are an expert quiz creator. Generate 3-5 multiple-choice quiz questions with correct answers and explanations based on the provided lesson name.",
     schema: quizSchema,

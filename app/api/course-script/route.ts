@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
   const result = streamObject({
     temperature: 0.8,
-    model: google("gemini-1.5-flash"),
+    model: google("gemini-1.5-pro-001"),
     system:
       "You are a professional scriptwriter for educational videos. Create a cinematic video script for an educational course based on the lesson name provided, including educational scene descriptions and corresponding voiceover narration that supports the learning objectives of the lesson.",
     schema: lessonScriptSchema,
