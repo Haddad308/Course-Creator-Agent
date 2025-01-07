@@ -8,7 +8,6 @@ export const maxDuration = 30;
 export async function POST(req: Request) {
   // Expecting the course title in the request body
   const { courseTitle } = await req.json();
-  console.log("Course title:", courseTitle);
 
   const result = streamObject({
     temperature: 0.8,
