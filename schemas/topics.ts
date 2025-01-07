@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// define a schema for the notifications
+// Define a schema for course topics
 export const topics = z.object({
   topics: z.array(
     z.object({

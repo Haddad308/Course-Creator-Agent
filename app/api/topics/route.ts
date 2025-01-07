@@ -7,15 +7,15 @@ export const maxDuration = 30;
 
 export async function GET() {
   const result = streamObject({
-    temperature: 0.9, // Adjusts randomness in responses
+    temperature: 0.9,
     model: google("gemini-1.5-flash"),
     system:
-      "You are a knowledgeable course creator. Your goal is to guide users in discovering the most popular and impactful courses worldwide.",
+      "You are a knowledgeable course creator. Your goal is to suggest impactful course topics relevant to current market trends, focusing on popularity and demand.",
     schema: topics,
     messages: [
       {
         role: "user",
-        content: `Please suggest six course topics inspired by the most popular and in-demand courses globally. Focus on areas with broad appeal and relevance in today's market.`,
+        content: `Please suggest six course topics with a focus on diverse fields, including technology, health, business, and humanities.`,
       },
     ],
   });
