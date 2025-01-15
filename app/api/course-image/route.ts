@@ -1,48 +1,45 @@
-import { openai } from "@ai-sdk/openai";
-import { experimental_generateImage as generateImage } from "ai";
-import cloudinary from "cloudinary";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-// Configure Cloudinary
-cloudinary.v2.config({
-  cloud_name: "dly3vjbnu",
-  api_key: "949721627781981",
-  api_secret: "XaylN5m8kul0hqpnLuFpjIOK7Jc",
-});
+const UNSPLASH_ACCESS_KEY = "bhtMv--eHOm1TM-b5oDIPaoavYEoFOql5BwKmdC2_9s"; // Replace with your Unsplash Access Key
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  const { description } = req.body;
-
-  if (!description) {
-    return res.status(400).json({ error: "Description is required" });
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    const { image } = await generateImage({
-      model: openai.image("dall"),
-      prompt: description,
-    });
+    const { query } = await req.json(); // Extract query from the request body
 
-    // Convert image to base64 URL
-    const base64Image = image.toString("base64");
+    if (!query) {
+      return NextResponse.json({ error: "Query is required" }, { status: 400 });
+    }
 
-    // Upload to Cloudinary
-    const uploadResponse = await cloudinary.v2.uploader.upload(
-      `data:image/png;base64,${base64Image}`,
-      { folder: "generated_images" }
+    // Fetch random image from Unsplash based on the query
+    const unsplashResponse = await fetch(
+      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(
+        `teaching about ${query}`
+      )}&client_id=${UNSPLASH_ACCESS_KEY}`
     );
 
-    // Return Cloudinary image URL
-    res.status(200).json({ imageUrl: uploadResponse.secure_url });
+    if (!unsplashResponse.ok) {
+      throw new Error("Failed to fetch image from Unsplash");
+    }
+
+    const images = await unsplashResponse.json();
+
+    if (images.length === 0) {
+      return NextResponse.json(
+        { error: "No images found for the query" },
+        { status: 404 }
+      );
+    }
+
+    // Extract the URL of the image
+    const imageUrl = images.urls.raw;
+
+    // Return the image URL
+    return NextResponse.json({ imageUrl });
   } catch (error) {
-    console.error("Error generating image:", error);
-    res.status(500).json({ error: "Failed to generate image" });
+    console.error("Error fetching image from Unsplash:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch image from Unsplash" },
+      { status: 500 }
+    );
   }
 }
