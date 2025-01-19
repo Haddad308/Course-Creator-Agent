@@ -27,6 +27,8 @@ export const POST = async (req: NextRequest) => {
     // Read the file content
     const fileContent = await (file as File).text();
 
+    console.log("File content:", fileContent);
+
     // Make the API request to enhance the course
     const result = streamObject({
       temperature: 0.8,
