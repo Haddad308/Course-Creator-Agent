@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     // Make the API request to enhance the course
     const result = streamObject({
       temperature: 0.8,
-      model: google("gemini-1.5-pro-001"),
+      model: google("gemini-1.5-pro"),
       system:
         "You are an expert course creator specializing in detailed educational content. Generate highly informative, engaging, and structured course modules with in-depth lessons and clear educational objectives.",
       schema: courseModulesSchema,
